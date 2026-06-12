@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Momo+Signature&family=Playwrite+GB+J:ital,wght@0,100..400;1,100..400&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap" rel="stylesheet">
+    <title>Oddech Wiosny</title> 
+<!-- Made by Wera :-) code layout has: HTML, JS, CSS but it is tad disorganised, cba to fix it -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        body {
+            background: rgb(122, 167, 107);
+            overflow-x: hidden;
+            font-family: sans-serif;
+        }
+
+        .bubble {
+            position: fixed;
+            bottom: -50px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+
+            background: rgba(255, 255, 150, 0.797);
+
+            box-shadow:
+                0 0 8px rgba(255, 255, 120, 0.3),
+                0 0 16px rgba(255, 255, 120, 0.2),
+                0 0 24px rgba(255, 255, 120, 0.1);
+
+            animation: floatBubble linear forwards;
+        }
+
+        @keyframes floatBubble {
+            from {
+                transform: translateY(0);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+
+        .momo-signature-regular {
+            font-family: "Momo Signature", cursive;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .fascinate-inline-regular {
+            font-family: "Fascinate Inline", system-ui;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+
+        .banner {
+            position: relative;
+            height: clamp(250px, 40vw, 420px);
+            width: 100%;
+            overflow: hidden;
+            background:
+                linear-gradient(rgba(63, 116, 56, 0.5)),
+                url("https://i.ibb.co/1fqF8yJs/field.webp");
+            background-size: cover;
+            /* fills area */
+            background-position: center;
+
+
+
+        }
+
+        /* Head */
+
+        #head {
+            cursor: pointer;
+            transition: transform 0.25s ease;
+            transform-origin: center;
+
+        }
+
+        #head.blowing {
+            transform: translateX(10px);
+        }
+
+        /* Wind */
+
+        .wind {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.505);
+            stroke-width: 3;
+            stroke-linecap: round;
+            opacity: 0;
+
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+        }
+
+        .wind.active {
+            animation: windFlow 1.2s ease-out;
+        }
+
+        @keyframes windFlow {
+            0% {
+                opacity: 0;
+                stroke-dashoffset: 400;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Seeds */
+
+        .seed {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            pointer-events: none;
+            background-image: url("https://i.ibb.co/JWsmhVPr/image-removebg-preview-28.webp");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+
+
+        .instructions {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            color: rgb(93, 0, 255);
+            font-size: 35px;
+            background-color: lightgreen;
+            font-family: lucida sans;
+        }
+
+
+
+        #dandelion {
+            transform-origin: 900px 350px;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 220px;
+            align-items: center;
+        }
+
+        .button1,
+        .button2,
+        .button3 {
+            height: 120px;
+            width: auto;
+        }
+
+        .button1 img,
+        .button2 img,
+        .button3 img {
+            width: min(400px, 30vw);
+            height: auto;
+        }
+
+        .button1 input,
+        .button2 input,
+        .button3 input {
+            display: none;
+        }
+
+        .content {
+            display: none;
+            width: 50%;
+            height: auto;
+            background: #d8f5d0;
+            border: 4px solid #4a8b45;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+            position: absolute;
+            left: 0;
+            box-sizing: border-box;
+
+        }
+
+
+
+        input[type="radio"]:checked~.content {
+            display: block;
+
+        }
+
+        h1 {
+            text-align: center;
+            font-family: "Fascinate Inline";
+            font-size: 40px;
+            color: crimson;
+        }
+
+
+        .underbanner img {
+            height: auto;
+            max-width: 95%;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            margin-bottom: 50px;
+        }
+
+        .underbanner {
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            text-align: center;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("https://i.ibb.co/ZzsWm94z/image-removebg-preview-32.webp");
+            background-size: contain;
+            background-repeat: no-repeat;
+
+        }
+
+        .leaf {
+            animation: flutter 2s infinite ease-in-out;
+        }
+
+        @keyframes flutter {
+            0% {
+                transform: rotate(-10deg);
+            }
+
+            50% {
+                transform: rotate(10deg);
+            }
+
+            100% {
+                transform: rotate(-10deg);
+            }
+        }
+
+
+        label {
+            padding: 0;
+            text-align: center;
+            width: 200px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flowerimg:hover,
+        .bugimg:hover,
+        .langimg:hover {
+            transform: scale(1.1);
+
+        }
+
+        #flowersbtn:checked+.button1 {
+            transform: scale(1.2);
+            z-index: 100;
+            color: pink;
+        }
+
+        #bugbtn:checked+.button2 {
+            transform: scale(1.2);
+            z-index: 100;
+        }
+
+        #langbtn:checked+.button3 {
+            transform: scale(1.2);
+            z-index: 100;
+        }
+
+        #flowersbtn:checked+.button1 img {
+            filter:
+                drop-shadow(0 0 20px rgba(255, 150, 200, .8)) drop-shadow(0 0 30px rgba(255, 120, 190, .9)) drop-shadow(0 0 50px rgba(255, 120, 190, .8));
+        }
+
+        #bugbtn:checked+.button2 img {
+            filter:
+                drop-shadow(0 0 20px rgba(255, 150, 200, .8)) drop-shadow(0 0 30px rgba(255, 120, 190, .9)) drop-shadow(0 0 50px rgba(255, 120, 190, .8));
+        }
+
+        #langbtn:checked+.button3 img {
+            filter:
+                drop-shadow(0 0 20px rgba(255, 150, 200, .8)) drop-shadow(0 0 30px rgba(255, 120, 190, .9)) drop-shadow(0 0 50px rgba(255, 120, 190, .8));
+        }
+
+        .images1,
+        .images2 {
+            align-content: center;
+            flex-direction: column;
+            display: flex;
+
+        }
+
+        .images3 {
+            display: flex;
+            flex-direction: column;
+            align-content: left;
+            height: 200px;
+            width: 300px;
+        }
+
+        .tableheading {
+            font-family: georgia;
+            font-size: 40px;
+            color: darkmagenta;
+
+        }
+
+        .flowers-content {
+            left: 0;
+        }
+
+        .bug-content {
+            left: 350px;
+        }
+
+        .lang-content {
+            left: 710px;
+        }
+
+        .country {
+            font-family: "Momo Signature", cursive;
+            font-size: 30px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .language {
+            font-family: sans-serif;
+            font-size: 50px;
+            font-weight: bolder;
+            text-align: center;
+
+        }
+
+        table,
+        th,
+        tr,
+        td {
+            border: 5px solid pink;
+
+        }
+
+        .backToTop {
+            border-style: dotted;
+            border-color: rgb(122, 0, 71);
+            opacity: 1;
+            pointer-events: auto;
+            color: whitesmoke;
+            background-color: rgb(145, 5, 106);
+            scale: 1.5;
+            font-family: "Momo Signature";
+            font-weight: bold;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            padding: 10px 10px;
+        }
+
+        .backToTop:hover {
+            transform: scale(1.1);
+        }
+
+        .closeCategory {
+            display: none;
+        }
+
+        /* MOBILE AND SO */
+        @media (max-width: 1200px) {
+            .backToTop {
+                display: none;
+                visibility: hidden;
+            }
+
+            .closeCategory {
+                display: block;
+                border-style: dotted;
+                border-color: rgb(122, 0, 71);
+                color: whitesmoke;
+                background-color: rgb(145, 5, 106);
+                font-family: "Momo Signature";
+                font-weight: bold;
+                margin: 10px auto 10px;
+                padding: 10px 20px;
+            }
+
+            .categories {
+                flex-direction: column;
+                gap: 50px;
+                align-items: center;
+            }
+
+
+
+            .button1 img,
+            .button2 img,
+            .button3 img {
+                width: min(80vw, 350px);
+                height: auto;
+            }
+
+            .content {
+                position: static;
+                width: 95%;
+                max-width: 700px;
+                margin: 20px auto;
+            }
+
+
+            .flowers-content,
+            .bug-content,
+            .lang-content {
+                left: auto;
+            }
+
+            .underbanner img {
+                width: 95%;
+                height: auto;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .country {
+                font-size: 20px;
+            }
+
+            .language {
+                font-size: 28px;
+            }
+
+            .images3 {
+                width: 120px;
+                height: auto;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+                margin: 10px auto;
+                display:block;
+            }
+
+            .langtable {
+                display: inline-table;
+                overflow-x: auto;
+                white-space: nowrap;
+                margin: 0 auto;
+            }
+
+
+            table {
+                overflow-x: auto;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+            }
+
+            .instructions {
+                font-size: 20px;
+            }
+
+            .backToTop {
+                position: static;
+                display: block;
+                margin: 30px auto 10px;
+            }
+
+            .flowers,
+            .bugs,
+            .langs {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .content {
+                position: static;
+                width: 95%;
+                max-width: 700px;
+                margin: 20px auto;
+            }
+
+            .button1,
+            .button2,
+            .button3 {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+
+            #flowersbtn:checked+.button1,
+            #bugbtn:checked+.button2,
+            #langbtn:checked+.button3 {
+                transform: scale(1.05);
+            }
+
+            .banner {
+                height: 250px;
+            }
+
+            .instructions {
+                font-size: 18px;
+                left: 10px;
+                bottom: 10px;
+            }
+
+            #head image {
+                transform: scale(1.1);
+                transform-origin: left center;
+            }
+
+            #dandelion image {
+                transform: scale(1.2);
+                transform-origin: left bottom;
+                transition: opacity 0.6s ease;
+            }
+
+            .banner {
+                height: 250px;
+            }
+
+            #headNormal,
+            #headBlowing {
+                transform: translateX(-120px) scale(0.82);
+            }
+
+            #dandelionImg,
+            #dandelionBlown {
+                transform: translateX(-180px) scale(0.82);
+            }
+
+            .instructions {
+                font-size: 18px;
+            }
+
+            .langtable {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width:700px) {
+
+
+            #head image {
+                transform: scale(1.1);
+                transform-origin: left center;
+            }
+
+            #dandelion image {
+                transform: scale(1.2);
+                transform-origin: top;
+                transition: opacity 0.6s ease;
+            }
+
+            .banner {
+                height: 300px;
+                width: 100%;
+            }
+
+            #headNormal,
+            #headBlowing {
+                transform: translateX(-120px) scale(0.82);
+            }
+
+            #dandelionImg,
+            #dandelionBlown {
+                transform: translateX(-180px) scale(0.82);
+            }
+
+            .instructions {
+                font-size: 18px;
+            }
+
+            .backToTop {
+                display: none;
+                visibility: hidden;
+            }
+
+            .closeCategory {
+                display: block;
+                border-style: dotted;
+                border-color: rgb(122, 0, 71);
+                color: whitesmoke;
+                background-color: rgb(145, 5, 106);
+                font-family: "Momo Signature";
+                font-weight: bold;
+                margin: 10px auto 10px;
+                padding: 10px 20px;
+            }
+
+            .categories {
+                flex-direction: column;
+                gap: 50px;
+                align-items: center;
+            }
+
+
+            .button1 img,
+            .button2 img,
+            .button3 img {
+                width: min(80vw, 350px);
+                height: auto;
+            }
+
+            .content {
+                position: static;
+                width: 95%;
+                margin: 20px auto;
+                overflow: hidden;
+            }
+
+
+            .underbanner img {
+                width: 95%;
+                height: auto;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+
+            .country {
+                font-size: 20px;
+            }
+
+            .language {
+                font-size: 28px;
+            }
+
+            .images3 {
+                width: 120px;
+                height: auto;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+                margin-left: 10px;
+            }
+
+            .langtable {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                margin: 0 auto;
+            }
+
+            table {
+                overflow-x: auto;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+            }
+
+            .instructions {
+                font-size: 20px;
+            }
+
+            .backToTop {
+                position: static;
+                display: block;
+                margin: 30px auto 10px;
+            }
+
+            .flowers,
+            .bugs,
+            .langs {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .content {
+                position: static;
+                width: 95%;
+                max-width: 700px;
+
+                margin-top: 40px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .button1,
+            .button2,
+            .button3 {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+
+            #flowersbtn:checked+.button1,
+            #bugbtn:checked+.button2,
+            #langbtn:checked+.button3 {
+                transform: scale(1.05);
+            }
+
+            .banner {
+                height: 200px;
+                width: 100%;
+            }
+
+            .instructions {
+                font-size: 18px;
+                left: 10px;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="banner" id="banner">
+
+        <svg viewBox="0 0 1200 400" width="100%" height="100%">
+
+            <!-- Head silhouette; PASTE TEACHER HERE -->
+            <g id="head">
+                <image id="headNormal" href="https://i.ibb.co/C3cJBJ3j/kasia1.webp" x="150" y="-40" width="400"
+                    height="600" opacity="1" />
+
+                <image id="headBlowing" href="https://i.ibb.co/MkMBHLxg/kasia2.webp" x="150" y="-60" width="400"
+                    height="600" opacity="0" />
+            </g>
+
+            <!-- Wind lines -->
+
+            <path id="wind1" class="wind" d="M550 280 L850 240" />
+            <path id="wind2" class="wind" d="M550 290 L850 290" />
+            <path id="wind3" class="wind" d="M550 300 L850 340" />
+
+            <!-- Dandelion IMG -->
+            <g id="dandelion">
+
+                <image id="dandelionImg" href="https://i.ibb.co/mgDR5kG/dandelionstatic.webp" x="620" y="140"
+                    width="330" height="500" />
+
+                <image id="dandelionBlown" href="https://i.ibb.co/TMHKzBPw/noleaf.webp" x="620" y="195" width="330"
+                    height="500" opacity="0" />
+            </g>
+
+        </svg>
+
+        <div class="instructions">
+            <b>Kliknij w głowę!</b>
+        </div>
+    </div>
+
+    <div class="underbanner">
+        <img src="https://i.ibb.co/RkkMc86T/Oddech-Wiosny-06-06-2026.webp" class="underbanner">
+    </div>
+
+    <!-- UR DIFF CATEGORIES; CONT FROM HERE -->
+    <div class="categories">
+        <div class="flowers">
+            <input type="radio" id="flowersbtn" name="category" />
+            <div class="button1">
+                <label for='flowersbtn' class="category">
+                    <img src="https://i.ibb.co/3Yv02ZWM/image.webp" class="flowerimg">
+                </label>
+
+            </div>
+            <div class="content flowers-content">
+                <h1>Kwiaty, które kwitną wiosną</h1>
+                <div class="images1">
+                    <img src="https://i.ibb.co/tTzNHJVM/Pierwiosnek.webp" alt="Pierwiosnek">
+                    <img src="https://i.ibb.co/bMLY0093/sasanka.webp" alt="sasanka">
+                    <img src="https://i.ibb.co/C56QX28J/irys.webp" alt="irys">
+                    <img src="https://i.ibb.co/ycGCZRYc/krokus.webp" alt="krokus">
+                    <img src="https://i.ibb.co/CKpS14cf/szafirek.webp" alt="szafirek">
+                    <img src="https://i.ibb.co/wNnyWL35/tulipan.webp" alt="tulipan">
+                    <img src="https://i.ibb.co/9kWHBfQQ/hiacynt.webp" alt="hiacynt">
+                    <img src="https://i.ibb.co/nNR8DNf8/przebis-nieg.webp" alt="przebis-nieg">
+                    <img src="https://i.ibb.co/0ySy6998/zonkil.webp" alt="zonkil">
+                    <img src="https://i.ibb.co/p9VCH7K/fio-ek.webp" alt="fio-ek">
+                </div>
+                <button class="backToTop">↑ Wróć</button>
+                <button class="closeCategory">✕ Zamknij</button>
+            </div>
+        </div>
+
+
+        <div class="bugs">
+            <input type="radio" id="bugbtn" name="category" />
+            <div class="button2">
+                <label for='bugbtn' class="category">
+                    <img src="https://i.ibb.co/DfWtQW5R/2-1.webp" class="bugimg">
+                </label>
+            </div>
+            <div class="content bug-content">
+                <h1>Owady, które budzą się wiosną</h1>
+                <div class="images2">
+                    <img src="https://i.ibb.co/KtxHwfN/motyl.webp" alt="motyl">
+                    <img src="https://i.ibb.co/5gvZmPJp/mrowka.webp" alt="mrowka">
+                    <img src="https://i.ibb.co/j9nPR5qP/pszczola.webp" alt="pszczola">
+                    <img src="https://i.ibb.co/qYPxd0DP/mucha.webp" alt="mucha">
+
+                    <img src="https://i.ibb.co/yBGGY8s7/biedronka.webp" alt="biedronka">
+                    <img src="https://i.ibb.co/Q7363pfj/trzmiel.webp" alt="trzmiel">
+
+                    <img src="https://i.ibb.co/gFBCBKLV/komar.webp" alt="komar">
+
+                </div>
+                <button class="backToTop">↑ Wróć</button>
+                <button class="closeCategory">✕ Zamknij</button>
+            </div>
+        </div>
+
+
+        <div class="langs">
+            <input type="radio" id="langbtn" name="category" />
+            <div class="button3">
+                <label for='langbtn' class="category">
+                    <img src="https://i.ibb.co/cSGPbZP9/3-1.webp" class="langimg">
+                </label>
+            </div>
+            <div class="content lang-content">
+                <h1>"Wiosna" w 19 krajach</h1>
+                <div class="thelangtable2">
+                    <table class="langtable" border="3">
+                        <tr>
+                            <th class="tableheading">Kraj</th>
+                            <th class="tableheading">Język</th>
+                        </tr>
+                        <tr>
+                            <td class="country">Irlandia <img src="https://i.ibb.co/BVdNTrj9/IE.webp" class="images3">
+                            </td>
+                            <td class="language">earrach</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Anglia <img src="https://i.ibb.co/3LdjZNj/engl.webp" class="images3">
+                            </td>
+                            <td class="language">Spring</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Niemcy <img src="https://i.ibb.co/zkkrZ9n/ger.webp" class="images3">
+                            </td>
+                            <td class="language">Frühling</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Francja <img src="https://i.ibb.co/DDRQMqVz/fr.webp" class="images3">
+                            </td>
+                            <td class="language">printemps</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Chiny <img src="https://i.ibb.co/rPmB2xT/chin.webp" class="images3">
+                            </td>
+                            <td class="language">春天 [chūntiān]</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Japonia <img src="https://i.ibb.co/ZpBJsSpX/japan.webp" class="images3">
+                            </td>
+                            <td class="language">春 [haru]</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Czechy <img src="https://i.ibb.co/36DmCbG/czech.webp" class="images3">
+                            </td>
+                            <td class="language">jaro</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Arabia <img src="https://i.ibb.co/R4Np0B2p/arab.webp" class="images3">
+                            </td>
+                            <td class="language">الربيع <br>[ar-rabī']</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Grecja <img src="https://i.ibb.co/jPBKCHxK/greek.webp" class="images3">
+                            </td>
+                            <td class="language"> άνοιξη <br>[wii-OHS-nah]</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Luksemburg <img src="https://i.ibb.co/KSP9mvG/lux.webp" class="images3">
+                            </td>
+                            <td class="language">Fréijoer</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Norwegia<img src="https://i.ibb.co/5Z09jNg/norw.webp" class="images3">
+                            </td>
+                            <td class="language">vår</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Rumunia<img src="https://i.ibb.co/bjDvh2cH/rom.webp" class="images3">
+                            </td>
+                            <td class="language">Primăvară</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Rosja <img src="https://i.ibb.co/k6GpTg32/rus.webp" class="images3">
+                                <br> Ukraina <img src="https://i.ibb.co/v4k3hdpY/ukr.webp" class="images3">
+                            </td>
+                            <td class="language">весна [vesna]</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Litwa <img src="https://i.ibb.co/3YPLpJH4/litwa.webp" class="images3">
+                                <br> Łotwa <img src="https://i.ibb.co/HSfYjh8/lotwa.webp" class="images3">
+                            </td>
+                            <td class="language">pavasaris</td>
+                        </tr>
+                        <tr>
+                            <td class="country">Hiszpania <img src="https://i.ibb.co/gbq6XhsD/spain.webp"
+                                    class="images3"> <br> Portugalia <img src="https://i.ibb.co/MxY8N306/portugal.webp"
+                                    class="images3"> <br> Włochy <img src="https://i.ibb.co/FqsZKkwK/italy.webp"
+                                    class="images3"></td>
+                            <td class="language">primavera</td>
+                        </tr>
+                    </table>
+                    <button class="backToTop">↑ Wróć</button>
+                    <button class="closeCategory">✕ Zamknij</button>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            const head = document.getElementById("head");
+            const banner = document.getElementById("banner");
+            const dandelion = document.getElementById("dandelion");
+            const dandelionImg = document.getElementById("dandelionImg");
+            const dandelionBlown = document.getElementById("dandelionBlown");
+            const headNormal = document.getElementById("headNormal");
+            const headBlowing = document.getElementById("headBlowing");
+
+            const winds = [
+                document.getElementById("wind1"),
+                document.getElementById("wind2"),
+                document.getElementById("wind3")
+            ];
+
+            let busy = false;
+
+            head.addEventListener("click", () => {
+
+                if (busy) return;
+                busy = true;
+
+                head.classList.add("blowing");
+
+                // Head animation
+
+                headNormal.setAttribute("opacity", "0");
+                headBlowing.setAttribute("opacity", "1");
+
+                // Switch back after a short puff
+                let faceTimer;
+                headNormal.style.opacity = "0";
+                headBlowing.style.opacity = "1";
+
+                clearTimeout(faceTimer);
+
+                faceTimer = setTimeout(() => {
+                    headNormal.style.opacity = "1";
+                    headBlowing.style.opacity = "0";
+                }, 1200);
+
+                setTimeout(() => {
+                    dandelionImg.style.opacity = "0";
+                    dandelionBlown.style.opacity = "1";
+                }, 200);
+
+                // Dandelion bend
+                dandelion.animate(
+                    [
+                        { transform: "translateX(0px) rotate(0deg)" },
+                        { transform: "translateX(12px) rotate(10deg)" },
+                        { transform: "translateX(6px) rotate(5deg)" },
+                        { transform: "translateX(0px) rotate(0deg)" }
+                    ],
+                    {
+                        duration: 1000,
+                        easing: "ease-out"
+                    }
+                );
+
+                // Wind
+                winds.forEach(w => {
+                    w.classList.remove("active");
+                });
+
+                setTimeout(() => {
+                    winds.forEach(w => {
+                        w.classList.add("active");
+                    });
+                }, 10);
+
+                // Seeds
+                releaseSeeds();
+
+                setTimeout(() => {
+
+                    head.classList.remove("blowing");
+
+                    headNormal.style.opacity = "1";
+                    headBlowing.style.opacity = "0";
+
+                    dandelionImg.style.opacity = "1";
+                    dandelionBlown.style.opacity = "0";
+
+                    busy = false;
+
+                }, 1200);
+            });
+
+            function releaseSeeds() {
+
+                for (let i = 0; i < 100; i++) {
+
+                    const seed = document.createElement("div");
+                    seed.className = "seed";
+
+                    const dandelionRect = dandelion.getBoundingClientRect();
+                    const bannerRect = banner.getBoundingClientRect();
+
+                    const startX =
+                        dandelionRect.left -
+                        bannerRect.left +
+                        dandelionRect.width * 0.7;
+
+                    const startY =
+                        dandelionRect.top -
+                        bannerRect.top +
+                        dandelionRect.height * 0.2;
+
+                    seed.style.left = startX + "px";
+                    seed.style.top = startY + "px";
+
+                    banner.appendChild(seed);
+
+                    animateSeed(seed);
+                }
+            }
+
+            function animateSeed(seed) {
+
+                const driftX =
+                    window.innerWidth * (0.3 + Math.random() * 0.7);
+                const driftY =
+                    -(window.innerHeight * (0.05 + Math.random() * 0.25));
+                const wobble = (Math.random() - 0.5) * 200;
+                const rotation = Math.random() * 1080;
+                const duration = 4000 + Math.random() * 4000;
+
+                seed.animate(
+                    [
+                        {
+                            transform: "translate(0px,0px) rotate(0deg)",
+                            opacity: 1
+                        },
+                        {
+                            transform:
+                                `translate(${driftX * 0.5 + wobble}px,
+                        ${driftY * 0.3}px)
+                        rotate(${rotation * 0.5}deg)`,
+                            opacity: 1,
+                            offset: 0.5
+                        },
+                        {
+                            transform:
+                                `translate(${driftX}px,
+                        ${driftY}px)
+                        rotate(${rotation}deg)`,
+                            opacity: 0
+                        }
+                    ],
+                    {
+                        duration: duration,
+                        easing: "ease-out",
+                        fill: "forwards"
+                    }
+                );
+
+                setTimeout(() => {
+                    seed.remove();
+                }, duration);
+            }
+            document.querySelectorAll(".category").forEach(btn => {
+
+                btn.addEventListener("click", e => {
+
+                    const rect = btn.getBoundingClientRect();
+
+                    releaseLeaves(
+                        rect.left + rect.width / 2 + window.scrollX,
+                        rect.top + rect.height / 2 + window.scrollY
+                    );
+                    setTimeout(() => {
+                        const content = btn
+                            .closest(".flowers, .bugs, .langs")
+                            .querySelector(".content");
+
+                        const target = content.offsetTop - 100;
+
+                        window.scrollTo({
+                            top: target,
+                            behavior: "smooth"
+                        });
+
+                    }, 300);
+
+                });
+
+            });
+
+            document.querySelectorAll(".closeCategory").forEach(button => {
+                button.addEventListener("click", () => {
+
+                    // uncheck all radios (closes category)
+                    document.querySelectorAll('input[name="category"]')
+                        .forEach(r => r.checked = false);
+
+                    window.scrollTo({
+                        top: document.querySelector(".categories").offsetTop - 50,
+                        behavior: "smooth"
+                    });
+                });
+            });
+            function releaseLeaves(x, y) {
+
+                for (let i = 0; i < 50; i++) {
+
+                    const leaf = document.createElement("div");
+                    leaf.classList.add("leaf");
+
+                    leaf.style.left = x + "px";
+                    leaf.style.top = y + "px";
+
+                    document.body.appendChild(leaf);
+
+                    const driftX = (Math.random() - 0.5) * 800;
+                    const fallY = 300 + Math.random() * 500;
+                    const rotation = Math.random() * 720 - 360;
+
+                    leaf.animate(
+                        [
+                            {
+                                transform: "translate(0px,0px) rotate(0deg)",
+                                opacity: 1
+                            },
+                            {
+                                transform: `translate(${driftX}px, ${fallY}px) rotate(${rotation}deg)`,
+                                opacity: 0
+                            }
+                        ],
+                        {
+                            duration: 2500 + Math.random() * 1500,
+                            easing: "ease-out",
+                            fill: "forwards"
+                        }
+                    );
+
+                    setTimeout(() => {
+                        leaf.remove();
+                    }, 4500);
+                }
+            }
+            function createBubble() {
+
+                const bubble = document.createElement("div");
+                bubble.classList.add("bubble");
+
+                const size = 8 + Math.random() * 20;
+
+                bubble.style.width = size + "px";
+                bubble.style.height = size + "px";
+
+                bubble.style.left = Math.random() * window.innerWidth + "px";
+
+                const duration = 15000 + Math.random() * 10000;
+
+                bubble.style.animationDuration = duration + "ms";
+
+                document.body.appendChild(bubble);
+
+                setTimeout(() => {
+                    bubble.remove();
+                }, duration);
+            }
+
+            setInterval(createBubble, 800);
+            document.querySelectorAll(".backToTop").forEach(button => {
+
+                window.addEventListener("scroll", () => {
+                    if (window.scrollY > 300) {
+                        button.classList.add("show");
+                    } else {
+                        button.classList.remove("show");
+                    }
+                });
+
+                button.addEventListener("click", () => {
+                    window.scrollTo({
+                        top: 3,
+                        behavior: "smooth"
+                    });
+                });
+
+            });
+
+
+        </script>
+    
+</body>
+
+</html>
